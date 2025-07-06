@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hal Değişimi Fonksiyonu Tam Sınav</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" async></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background-color: rgba(255, 255, 255, 0.98);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        header {
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+            color: #FFD700;
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .module-info {
+            display: flex;
+            justify-content: space-between;
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 8px 12px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .relation-info {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 8px;
+            border-radius: 5px;
+            margin-top: 8px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        
+        .math {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #FFD700;
+        }
+        
+        .content {
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .graph-container {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .graph-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .graph-header h3 {
+            color: #1a2a6c;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+        
+        .graph-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .how-to-btn {
+            background: linear-gradient(to right, #1a2a6c, #3a5fc5);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .how-to-btn:hover {
+            background: linear-gradient(to right, #0d1b4d, #2a4bbd);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .how-to-btn i {
+            font-size: 0.9rem;
+        }
+        
+        .canvas-wrapper {
+            position: relative;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            padding: 5px;
+            margin: 0;
+        }
+        
+        #graph-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            background-color: #fff;
+        }
+       .gizle {
+
+            display: none !important;
+
+        }
+                
+        .function-display {
+            text-align: center;
+            font-size: 1.4rem;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #1a2a6c;
+        }
+        
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            font-size: 0.8rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+        }
+        
+        .properties-section {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            border-top: 3px solid #1a2a6c;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: block;
+        }
+        
+        .properties-section h3 {
+            color: #1a2a6c;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .property-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px 15px 15px 15px;
+            border: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .property-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .property-card h4 {
+            color: #1a2a6c;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .property-card .points {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #1a2a6c;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .property-card h4 i {
+            color: #b21f1f;
+        }
+        
+        .formula-input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .option {
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .option:hover {
+            background-color: #e9ecef;
+        }
+        
+        .option.selected {
+            background-color: #1a2a6c;
+            color: white;
+            border-color: #1a2a6c;
+            box-shadow: 0 4px 8px rgba(26, 42, 108, 0.2);
+        }
+        
+        .option.disabled {
+            opacity: 0.7;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
+        
+        .feedback {
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 8px;
+            display: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .feedback.correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex: 1;
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-check {
+            background: linear-gradient(to right, #1a2a6c, #3a5fc5);
+            color: white;
+        }
+        
+        .btn-check:hover:not(:disabled) {
+            background: linear-gradient(to right, #0d1b4d, #2a4bbd);
+            transform: translateY(-2px);
+        }
+        
+        .btn-next {
+            background: linear-gradient(to right, #b21f1f, #d9534f);
+            color: white;
+        }
+        
+        .btn-next:hover:not(:disabled) {
+            background: linear-gradient(to right, #8a1919, #c9302c);
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #1a2a6c;
+            color: white;
+            font-size: 0.85rem;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #1a2a6c, #3a5fc5);
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+        
+        .exam-result {
+            display: none;
+            background-color: #e2f0ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            border: 2px solid #1a2a6c;
+        }
+        
+        .exam-result h3 {
+            color: #1a2a6c;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .score-display {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #1a2a6c;
+        }
+        
+        .score-text {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .score-details {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+            margin: 15px 0;
+            border: 1px solid #dee2e6;
+        }
+        
+        .score-details h4 {
+            color: #1a2a6c;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .score-details ul {
+            padding-left: 20px;
+        }
+        
+        .score-details li {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .score-details .score-value {
+            font-weight: bold;
+        }
+        
+        .result-message {
+            font-size: 1.2rem;
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        
+        .excellent {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .good {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        
+        .average {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .next-exam-btn {
+            display: none;
+            background: linear-gradient(to right, #1a6c2a, #3ac55f);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 20px auto;
+            transition: all 0.3s ease;
+            max-width: 250px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .next-exam-btn:hover {
+            background: linear-gradient(to right, #0d4d1b, #2abd4b);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Modal Stilleri */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: modalopen 0.5s;
+        }
+        
+        @keyframes modalopen {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h2 {
+            font-size: 1.3rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0 10px;
+        }
+        
+        .modal-instructions {
+            padding: 20px;
+        }
+        
+        .modal-instructions p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .modal-instructions ol {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-instructions li {
+            margin-bottom: 10px;
+        }
+        
+        .modal-tip {
+            background-color: #f8f9fa;
+            border-left: 4px solid #1a2a6c;
+            padding: 15px;
+            border-radius: 0 5px 5px 0;
+            margin-top: 20px;
+        }
+        
+        .modal-tip p {
+            margin-bottom: 0;
+        }
+        
+        .phase-info {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        
+        .phase-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .phase-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 10px;
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+        
+        .phase-details h4 {
+            margin-bottom: 5px;
+            color: #1a2a6c;
+        }
+        
+        .phase-details p {
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+        
+        .hint-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid #1a2a6c;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.9rem;
+        }
+        
+        .hint-box i {
+            color: #1a2a6c;
+            margin-right: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .graph-header h3 {
+                font-size: 1rem;
+            }
+            
+            .function-display {
+                font-size: 1rem;
+                padding: 10px;
+            }
+            
+            .legend {
+                font-size: 0.7rem;
+                gap: 5px;
+            }
+            
+            .legend-color {
+                width: 12px;
+                height: 12px;
+            }
+            
+            .content {
+                padding: 10px;
+            }
+            
+            .graph-header {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .properties-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            .relation-info {
+                font-size: 0.95rem;
+            }
+            
+            .math {
+                font-size: 1rem;
+            }
+            
+            .graph-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .how-to-btn {
+                width: 100%;
+            }
+            
+            .score-display {
+                font-size: 2.5rem;
+            }
+            
+            .modal-content {
+                width: 95%;
+                max-height: 85vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+             <div class="logo">
+                <i class="fas fa-temperature-high"></i>
+                <div>
+                    <h1>Suyun Hal Değişim Fonksiyonu Özellikleri</h1>
+                    <div class="exam-level">3. Basamak Değerlendirme Sınavı</div>
+                </div>
+            </div>
+
+            <div class="relation-info">
+                <p>Aşağıda suyun sıcaklık-zaman grafiği verilmiştir. Bu grafik, suyun -10°C'den başlayarak ısınma, erime, kaynama gibi hal değişim süreçlerini göstermektedir. Önce parçalı fonksiyonun formülünü yazın, ardından fonksiyonun özelliklerini belirleyin.</p>
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="graph-container">
+                <div class="graph-header">
+                    <h3><i class="fas fa-chart-line"></i> Hal Değişimi Sıcaklık-Zaman Grafiği</h3>
+                    <div class="graph-buttons">
+                        <button class="how-to-btn" id="how-to-btn">
+                            <i class="fas fa-info-circle"></i> Hal Değişimi Bilgisi
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="function-display">
+                    <p>Hal Değişimi Fonksiyonu: Parçalı Tanımlı Sıcaklık-Zaman İlişkisi</p>
+                </div>
+                
+                <div class="canvas-wrapper">
+                    <canvas id="graph-canvas"></canvas>
+                </div>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color:#e74c3c"></div>
+                        <span>Buzun ısınması (-10°C → 0°C)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color:#3498db"></div>
+                        <span>Erime süreci (0°C'de sabit)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color:#2ecc71"></div>
+                        <span>Suyun ısınması (0°C → 100°C)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color:#9b59b6"></div>
+                        <span>Buharlaşma süreci (100°C'de sabit)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Formül Yazma Bölümü -->
+            <div class="properties-section" id="formula-section">
+                <h3><i class="fas fa-tasks"></i> 1. Parçalı Fonksiyon Formülü Yazma <span class="points">10 Puan</span></h3>
+                <p>Aşağıdaki soruları cevaplayarak parçalı fonksiyonun formülünü oluşturunuz:</p>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar-formula" style="width: 0%"></div>
+                </div>
+                
+                <div class="properties-grid">
+                    <div class="property-card">
+                        <div class="points">3 Puan</div>
+                        <h4><i class="fas fa-snowflake"></i> Buzun Isınması (0 ≤ x ≤ 2)</h4>
+                        <p>Bu bölümde sıcaklık lineer olarak artmaktadır. Başlangıç noktası (0, -10) ve bitiş noktası (2, 0) olduğuna göre:</p>
+                        <p>Eğim (m) = ?</p>
+                        <input type="text" class="formula-input" id="slope-1" placeholder="Eğimi yazınız">
+                        <p>Formül: f(x) = ?</p>
+                        <input type="text" class="formula-input" id="formula-1" placeholder="ax+b şeklinde giriniz">
+                        <div class="feedback correct" id="feedback-1">
+                            <i class="fas fa-check-circle"></i> Doğru! Eğim: 5, Formül: 5x-10
+                        </div>
+                        <div class="feedback incorrect" id="feedback-1-incorrect">
+                            <i class="fas fa-times-circle"></i> Yanlış. Grafiği dikkatlice inceleyin.
+                        </div>
+                    </div>
+                    
+                    <div class="property-card">
+                        <div class="points">2 Puan</div>
+                        <h4><i class="fas fa-ice-cream"></i> Erime Süreci (2 < x ≤ 6)</h4>
+                        <p>Bu bölümde sıcaklık sabit kalmaktadır. Erime noktası 0°C olduğuna göre:</p>
+                        <p>Formül: f(x) = ?</p>
+                        <input type="text" class="formula-input" id="formula-2" placeholder="Formülü yazınız">
+                        <div class="feedback correct" id="feedback-2">
+                            <i class="fas fa-check-circle"></i> Doğru! Formül: 0
+                        </div>
+                        <div class="feedback incorrect" id="feedback-2-incorrect">
+                            <i class="fas fa-times-circle"></i> Yanlış. Sabit sıcaklık bölgesidir.
+                        </div>
+                    </div>
+                    
+                    <div class="property-card">
+                        <div class="points">3 Puan</div>
+                        <h4><i class="fas fa-tint"></i> Suyun Isınması (6 < x ≤ 8)</h4>
+                        <p>Bu bölümde sıcaklık lineer olarak artmaktadır. Başlangıç noktası (6, 0) ve bitiş noktası (8, 100) olduğuna göre:</p>
+                        <p>Eğim (m) = ?</p>
+                        <input type="text" class="formula-input" id="slope-3" placeholder="Eğimi yazınız.">
+                        <p>Formül: f(x) = ?</p>
+                        <input type="text" class="formula-input" id="formula-3" placeholder="ax+b şeklinde yazınız.">
+                        <div class="feedback correct" id="feedback-3">
+                            <i class="fas fa-check-circle"></i> Doğru! Eğim: 50, Formül: 50(x-6) veya eşdeğerleri
+                        </div>
+                        <div class="feedback incorrect" id="feedback-3-incorrect">
+                            <i class="fas fa-times-circle"></i> Yanlış. Grafiği dikkatlice inceleyin.
+                        </div>
+                    </div>
+                    
+                    <div class="property-card">
+                        <div class="points">2 Puan</div>
+                        <h4><i class="fas fa-cloud"></i> Buharlaşma Süreci (8 < x ≤ 10)</h4>
+                        <p>Bu bölümde sıcaklık sabit kalmaktadır. Kaynama noktası 100°C olduğuna göre:</p>
+                        <p>Formül: f(x) = ?</p>
+                        <input type="text" class="formula-input" id="formula-4" placeholder="Formülü yazınız">
+                        <div class="feedback correct" id="feedback-4">
+                            <i class="fas fa-check-circle"></i> Doğru! Formül: 100
+                        </div>
+                        <div class="feedback incorrect" id="feedback-4-incorrect">
+                            <i class="fas fa-times-circle"></i> Yanlış. Sabit sıcaklık bölgesidir.
+                        </div>
+                    </div>
+			<div class="gizle">
+                    
+                    <div class="property-card" style="grid-column: 1 / -1;">
+                        <div class="points">2 Puan</div>
+                        <h4><i class="fas fa-puzzle-piece"></i> Parçalı Fonksiyonun Tamamı</h4>
+                        <p>Yukarıdaki tüm parçaları birleştirerek parçalı fonksiyonu tam olarak yazınız.</p>
+                        <p>Formül: f(x) = ?</p>
+                        <textarea class="formula-input" id="full-formula" rows="5" placeholder="{
+    Örnek yazım şekli: ax+b,   [m,n]
+    [1. parça],   [aralık]
+    [2. parça],   [aralık]
+    [3. parça],   [aralık]
+    [4. parça],   [aralık]
+}"></textarea>
+                        <div class="feedback correct" id="feedback-full">
+                            <i class="fas fa-check-circle"></i> Doğru! Parçalı fonksiyon:
+                            <pre>f(x) = {
+    5x-10,   [0,2]
+    0,           (2,6]
+    50x-300,    (6,8]
+    100,         (8,10]
+}</pre>
+                        </div>
+                        <div class="feedback incorrect" id="feedback-full-incorrect">
+                            <i class="fas fa-times-circle"></i> Yanlış. Tüm parçaları doğru yazdığınızdan emin olun.
+                        </div>
+                    </div>
+                </div>
+		</div>
+                
+                <div class="buttons">
+                    <button class="btn btn-check" id="check-formula">
+                        <i class="fas fa-check"></i> Cevapları Kontrol Et
+                    </button>
+                    <button class="btn btn-next" id="next-formula-btn" disabled>
+                        <i class="fas fa-arrow-right"></i> Sonraki Bölüme Geç
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Fonksiyon Özellikleri Bölümü -->
+            <div class="properties-section" id="properties-section" style="display: none;">
+                <h3><i class="fas fa-tasks"></i> 2. Fonksiyon Nitel Özellikleri <span class="points">5 Puan</span></h3>
+                <p>Fonksiyonun temel özelliklerini belirlemek için aşağıdaki soruları cevaplayın:</p>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar-properties" style="width: 0%"></div>
+                </div>
+                
+                <div class="properties-grid">
+                    <div class="property-card">
+                        <div class="points">1 Puan</div>
+                        <h4><i class="fas fa-chart-bar"></i> Görüntü Kümesi</h4>
+                        <p>Fonksiyonun alabileceği y değerleri hangi aralıktadır?</p>
+                        <div class="options">
+                            <div class="option" data-value="reel">Gerçek sayılar</div>
+                            <div class="option" data-value="positive">Pozitif gerçek sayılar</div>
+                            <div class="option" data-value="interval">[-10, 100]</div>
+                            <div class="option" data-value="higher">[0, ∞)</div>
+                        </div>
+                        <div class="feedback correct">
+                            <i class="fas fa-check-circle"></i> Doğru! Fonksiyon [-10, 100] aralığında değerler alır.
+                        </div>
+                        <div class="feedback incorrect">
+                            <i class="fas fa-times-circle"></i> Yanlış. Grafiğe bakarak minimum (-10) ve maksimum (100) sıcaklıkları gözlemleyin.
+                        </div>
+                    </div>
+                    
+                    <div class="property-card">
+                        <div class="points">1 Puan</div>
+                        <h4><i class="fas fa-fingerprint"></i> Bire Bir Olma</h4>
+                        <p>Bu fonksiyon bire bir midir?</p>
+                        <div class="options">
+                            <div class="option" data-value="hayir">Hayır, bire bir değildir</div>
+                            <div class="option" data-value="evet">Evet, bire birdir</div>
+                        </div>
+                        <div class="feedback correct">
+                            <i class="fas fa-check-circle"></i> Doğru! Sabit olduğu aralıklarda aynı y değerine sahip birden fazla x değeri vardır.
+                        </div>
+                        <div class="feedback incorrect">
+                            <i class="fas fa-times-circle"></i> Yanlış. Sabit aralıklarda birden fazla x aynı y değerine sahiptir.
+                        </div>
+                    </div>
+                    
+                    <div class="property-card">
+                        <div class="points">1 Puan</div>
+                        <h4><i class="fas fa-calculator"></i> Tanım Kümesi</h4>
+                        <p>Fonksiyonun tanımlı olduğu x değerleri hangi aralıktadır?</p>
+                        <div class="options">
+                            <div class="option" data-value="reel">Gerçek sayılar</div>
+                            <div class="option" data-value="positive">Pozitif gerçek sayılar</div>
+                            <div class="option" data-value="interval">[0, 10]</div>
+                            <div class="option" data-value="neg-pos">(-∞, 0) ∪ (0, ∞)</div>
+                        </div>
+                        <div class="feedback correct">
+                            <i class="fas fa-check-circle"></i> Doğru! Fonksiyon [0, 10] aralığında tanımlıdır.
+                        </div>
+                        <div class="feedback incorrect">
+                            <i class="fas fa-times-circle"></i> Yanlış. Grafikte fonksiyon x ∈ [0,10] için tanımlıdır.
+                        </div>
+                    </div>
+                    
+                    <!-- Yeni eklenen sorular -->
+                    <div class="property-card">
+                        <div class="points">1 Puan</div>
+                        <h4><i class="fas fa-arrow-up"></i> Artan/Azalan Aralıklar</h4>
+                        <p>Fonksiyon hangi aralıklarda artan/azalandır?</p>
+                        <div class="options">
+                            <div class="option" data-value="artan">[0,2] ve [6,8]'nda artan</div>
+                            <div class="option" data-value="azalan">[0,2]'nda azalan, [6,8]'nda artan</div>
+                            <div class="option" data-value="kismi">[0,2]'nda artan, [6,8]'nda azalan</div>
+                            <div class="option" data-value="sabit">Tüm aralıklarda sabit</div>
+                        </div>
+                        <div class="feedback correct">
+                            <i class="fas fa-check-circle"></i> Doğru! [0,2] ve [6,8] aralıklarında sıcaklık artmaktadır.
+                        </div>
+                        <div class="feedback incorrect">
+                            <i class="fas fa-times-circle"></i> Yanlış. Grafikte yükselen eğimler artan bölgeleri gösterir.
+                        </div>
+                    </div>
+                    
+                    <div class="property-card">
+                        <div class="points">1 Puan</div>
+                        <h4><i class="fas fa-plus-minus"></i> Pozitif/Negatif Aralıklar</h4>
+                        <p>Fonksiyon hangi aralıklarda pozitif/negatiftir?</p>
+                        <div class="options">
+                            <div class="option" data-value="poz-neg">x < 2'de negatif, x > 2'de pozitif</div>
+                            <div class="option" data-value="poz">x > 0'da pozitif</div>
+                            <div class="option" data-value="neg">x < 6'da negatif</div>
+                            <div class="option" data-value="neg-poz">x < 0'da negatif, x > 0'da pozitif</div>
+                        </div>
+                        <div class="feedback correct">
+                            <i class="fas fa-check-circle"></i> Doğru! Fonksiyon x < 2'de negatif, x > 2'de pozitiftir.
+                        </div>
+                        <div class="feedback incorrect">
+                            <i class="fas fa-times-circle"></i> Yanlış. Grafikte x ekseninin altı negatif, üstü pozitif bölgelerdir.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="buttons">
+                    <button class="btn btn-check" id="check-properties" disabled>
+                        <i class="fas fa-check"></i> Cevapları Kontrol Et
+                    </button>
+                    <div id="properties-note" class="feedback" style="display: block; margin-top: 15px;">
+                        <i class="fas fa-exclamation-circle"></i> Butonun aktif olabilmesi için tüm soruları cevaplayınız!
+                    </div>
+                    <button class="btn btn-next" id="next-properties-btn" disabled>
+                        <i class="fas fa-arrow-right"></i> Sınavı Tamamla
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Sınav Sonuç Bölümü -->
+            <div class="exam-result" id="exam-result">
+                <h3><i class="fas fa-award"></i> 3. Basamak Değerlendirme Sınavı Sonucu</h3>
+                <div class="score-display" id="total-score">0/15</div>
+                
+                <div class="score-details">
+                    <h4>Puan Dağılımı</h4>
+                    <ul>
+                        <li>
+                            <span>Parçalı Fonksiyon Formülü:</span>
+                            <span class="score-value" id="formula-score">0/12</span>
+                        </li>
+                        <li>
+                            <span>Fonksiyon Nitel Özellikleri:</span>
+                            <span class="score-value" id="properties-score">0/3</span>
+                        </li>
+                        <li>
+                            <span>Toplam Puan:</span>
+                            <span class="score-value" id="final-score">0/15</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="result-message" id="result-message">
+                    <p>Sınav tamamlandı! Sonuçlarınız yukarıda gösterilmektedir.</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Suyun Hal Değişim Fonksiyonu Özellikleri - 3. Basamak Değerlendirme Sınavı</p>
+        </footer>
+    </div>
+    
+    <!-- Hal Değişimi Bilgisi Modalı -->
+    <div class="modal" id="phase-info-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-info-circle"></i> Hal Değişimi Süreçleri</h2>
+                <button class="close-modal" id="close-phase-modal">&times;</button>
+            </div>
+            <div class="modal-instructions">
+                <p>Bu grafik, bir maddenin sıcaklığının zamanla nasıl değiştiğini ve hal değişim süreçlerini göstermektedir. Grafikte dört farklı bölge bulunmaktadır:</p>
+                
+                <div class="phase-info">
+                    <div class="phase-item">
+                        <div class="phase-color" style="background-color:#e74c3c"></div>
+                        <div class="phase-details">
+                            <h4>1. Buzun Isınması (0 ≤ x ≤ 2)</h4>
+                            <p>-10°C'den 0°C'ye kadar buzun ısınmasını gösterir. </p>
+                        </div>
+                    </div>
+                    
+                    <div class="phase-item">
+                        <div class="phase-color" style="background-color:#3498db"></div>
+                        <div class="phase-details">
+                            <h4>2. Erime Süreci (2 < x ≤ 6)</h4>
+                            <p>0°C'de buzun suya dönüşümü gerçekleşir. Isı enerjisi, hal değişimi için kullanılır.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="phase-item">
+                        <div class="phase-color" style="background-color:#2ecc71"></div>
+                        <div class="phase-details">
+                            <h4>3. Suyun Isınması (6 < x ≤ 8)</h4>
+                            <p>0°C'den 100°C'ye kadar suyun ısınmasını gösterir. </p>
+                        </div>
+                    </div>
+                    
+                    <div class="phase-item">
+                        <div class="phase-color" style="background-color:#9b59b6"></div>
+                        <div class="phase-details">
+                            <h4>4. Buharlaşma Süreci (8 < x ≤ 10)</h4>
+                            <p>100°C'de suyun buhara dönüşümü gerçekleşir. Isı enerjisi, hal değişimi için kullanılır.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-tip">
+                    <p><strong><i class="fas fa-lightbulb"></i> Önemli Bilgi:</strong> Hal değişimleri sırasında sıcaklık sabit kalır çünkü verilen ısı enerjisi, moleküller arası bağları koparmak için kullanılır.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Canvas elementlerini seç
+            const canvas = document.getElementById('graph-canvas');
+            const ctx = canvas.getContext('2d');
+            const canvasWrapper = document.querySelector('.canvas-wrapper');
+            
+            // Canvas boyutlandırma fonksiyonu
+            function resizeCanvas() {
+                const width = canvasWrapper.clientWidth;
+                const height = width * 9 / 16; // 16:9 en boy oranı
+                
+                canvas.width = width;
+                canvas.height = height;
+                
+                drawGraph();
+            }
+            
+            // Ok çizme fonksiyonu
+            function drawArrow(x, y, angle) {
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(angle);
+                
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(-10, -5);
+                ctx.lineTo(-10, 5);
+                ctx.closePath();
+                ctx.fillStyle = '#333';
+                ctx.fill();
+                
+                ctx.restore();
+            }
+            
+            function drawGraph() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Grafik boyutları
+                const margin = {top: 15, right: 15, bottom: 20, left: 40};
+                const graphWidth = canvas.width - margin.left - margin.right;
+                const graphHeight = canvas.height - margin.top - margin.bottom;
+                
+                // Eksen aralıkları (x ekseni 0-10 arası)
+                const xMin = 0;
+                const xMax = 10;
+                const yMin = -20;
+                const yMax = 110;
+                
+                // Ölçekleme fonksiyonları
+                function scaleX(x) {
+                    return margin.left + ((x - xMin) / (xMax - xMin)) * graphWidth;
+                }
+                
+                function scaleY(y) {
+                    return margin.top + graphHeight - ((y - yMin) / (yMax - yMin)) * graphHeight;
+                }
+                
+                // Grid çizgileri
+                ctx.strokeStyle = 'rgba(0,0,0,0.1)';
+                ctx.lineWidth = 1;
+                
+                // Yatay grid
+                for (let y = yMin; y <= yMax; y += 10) {
+                    ctx.beginPath();
+                    ctx.moveTo(scaleX(xMin), scaleY(y));
+                    ctx.lineTo(scaleX(xMax), scaleY(y));
+                    ctx.stroke();
+                }
+                
+                // Dikey grid
+                for (let x = xMin; x <= xMax; x++) {
+                    ctx.beginPath();
+                    ctx.moveTo(scaleX(x), scaleY(yMin));
+                    ctx.lineTo(scaleX(x), scaleY(yMax));
+                    ctx.stroke();
+                }
+                
+                // Eksenler
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 2;
+                
+                // X ekseni (0'dan başlıyor)
+                ctx.beginPath();
+                ctx.moveTo(scaleX(xMin), scaleY(0));
+                ctx.lineTo(scaleX(xMax), scaleY(0));
+                ctx.stroke();
+                
+                // Y ekseni
+                ctx.beginPath();
+                ctx.moveTo(scaleX(0), scaleY(yMin));
+                ctx.lineTo(scaleX(0), scaleY(yMax));
+                ctx.stroke();
+                
+                // Eksen okları ve etiketleri
+                drawArrow(scaleX(xMax), scaleY(0), 0); // Sağ ok
+                drawArrow(scaleX(0), scaleY(yMax), -Math.PI/2); // Üst ok
+                drawArrow(scaleX(0), scaleY(yMin), Math.PI/2); // Alt ok
+                
+                // Eksen etiketleri
+                ctx.font = '10px Arial';
+                ctx.fillStyle = '#333';
+                ctx.textAlign = 'center';
+                
+                // X ekseni etiketleri (0-10 arası)
+                for (let x = xMin; x <= xMax; x++) {
+                    ctx.fillText(x.toString(), scaleX(x), scaleY(0) + 12);
+                }
+                
+                // Y ekseni etiketleri
+                ctx.textAlign = 'right';
+                for (let y = yMin; y <= yMax; y += 20) {
+                    if (y !== 0) {
+                        ctx.fillText(y.toString(), scaleX(0) - 5, scaleY(y) + 3);
+                    }
+                }
+                
+                // Y eksenini kestiği noktaya -10 etiketi
+                ctx.fillText("-10", scaleX(0) - 5, scaleY(-10) + 3);
+                
+                // Orijin etiketi
+                ctx.fillText("O", scaleX(0) - 12, scaleY(0) + 12);
+                
+                // Eksen başlıkları (x ve y etiketleri)
+                ctx.font = 'bold 12px Arial';
+                ctx.fillStyle = '#2c3e50';
+                ctx.textAlign = 'center';
+                ctx.fillText('Zaman (dakika)', scaleX(xMax/2), scaleY(yMin) + 20);
+                
+                // x ve y eksen etiketleri
+                ctx.fillText("x", scaleX(xMax) - 10, scaleY(0) - 10);
+                ctx.fillText("y", scaleX(0) + 15, scaleY(yMax) + 15);
+                
+                ctx.save();
+                ctx.translate(10, margin.top + graphHeight/2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('Sıcaklık (°C)', 0, 0);
+                ctx.restore();
+                
+                // Fonksiyon çizimi
+                ctx.lineWidth = 3;
+                
+                // 1. Parça: 5x-10 (0≤x≤2)
+                ctx.strokeStyle = '#e74c3c';
+                ctx.beginPath();
+                ctx.moveTo(scaleX(0), scaleY(-10));
+                for (let x = 0; x <= 2; x += 0.1) {
+                    const y = 5*x - 10;
+                    ctx.lineTo(scaleX(x), scaleY(y));
+                }
+                ctx.stroke();
+                
+                // 2. Parça: y=0 (2<x≤6)
+                ctx.strokeStyle = '#3498db';
+                ctx.beginPath();
+                ctx.moveTo(scaleX(2), scaleY(0));
+                ctx.lineTo(scaleX(6), scaleY(0));
+                ctx.stroke();
+                
+                // 3. Parça: 50(x-6) (6<x≤8)
+                ctx.strokeStyle = '#2ecc71';
+                ctx.beginPath();
+                ctx.moveTo(scaleX(6), scaleY(0));
+                for (let x = 6; x <= 8; x += 0.1) {
+                    const y = 50*(x-6);
+                    ctx.lineTo(scaleX(x), scaleY(y));
+                }
+                ctx.stroke();
+                
+                // 4. Parça: y=100 (x>8)
+                ctx.strokeStyle = '#9b59b6';
+                ctx.beginPath();
+                ctx.moveTo(scaleX(8), scaleY(100));
+                ctx.lineTo(scaleX(10), scaleY(100));
+                ctx.stroke();
+                
+                // Başlangıç noktası
+                ctx.fillStyle = '#3498db';
+                ctx.beginPath();
+                ctx.arc(scaleX(0), scaleY(-10), 3, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Fonksiyonun bitiş noktası (x=10'da)
+                ctx.fillStyle = '#9b59b6';
+                ctx.beginPath();
+                ctx.arc(scaleX(10), scaleY(100), 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            // İlk boyutlandırma ve çizim
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            // Formül kontrolü için elemanlar
+            const checkFormulaButton = document.getElementById('check-formula');
+            const nextFormulaButton = document.getElementById('next-formula-btn');
+            
+            // Özellikler için elemanlar
+            const propertyCards = document.querySelectorAll('#properties-section .property-card');
+            const checkPropertiesButton = document.getElementById('check-properties');
+            const nextPropertiesButton = document.getElementById('next-properties-btn');
+            
+            // Puan gösterim elemanları
+            const formulaScoreElement = document.getElementById('formula-score');
+            const propertiesScoreElement = document.getElementById('properties-score');
+            const totalScoreElement = document.getElementById('total-score');
+            const finalScoreElement = document.getElementById('final-score');
+            const resultMessage = document.getElementById('result-message');
+            const examResult = document.getElementById('exam-result');
+            
+            // Modal için elemanlar
+            const howToBtn = document.getElementById('how-to-btn');
+            const phaseInfoModal = document.getElementById('phase-info-modal');
+            const closePhaseModal = document.getElementById('close-phase-modal');
+            
+            // Doğru cevaplar
+            const correctAnswers = {
+                slope1: "5",
+                formula1: "5x-10",
+                formula2: "0",
+                slope3: "50",
+                formula3: "50(x-6)",
+                formula4: "100",
+                fullFormula: `f(x) = {
+    5x-10,    [0,2]
+    0,           (2,6]
+    50x-300,     (6,8]
+    100,         (8,10]
+}`
+            };
+            
+            // Formülleri kontrol etme fonksiyonu
+            function checkFormulas() {
+                let formulaScore = 0;
+                const answers = {
+                    slope1: document.getElementById('slope-1').value.trim(),
+                    formula1: document.getElementById('formula-1').value.trim(),
+                    formula2: document.getElementById('formula-2').value.trim(),
+                    slope3: document.getElementById('slope-3').value.trim(),
+                    formula3: document.getElementById('formula-3').value.trim(),
+                    formula4: document.getElementById('formula-4').value.trim(),
+                    fullFormula: document.getElementById('full-formula').value.trim()
+                };
+                
+                // 1. Bölüm kontrolü (3 puan)
+                let part1Score = 0;
+                if (answers.slope1 === correctAnswers.slope1) part1Score += 1;
+                if (answers.formula1 === correctAnswers.formula1 || 
+                    answers.formula1 === "-10+5x" || 
+                    answers.formula1 === "5*x-10" ||
+                    answers.formula1 === "5x - 10" ||
+                    answers.formula1 === "5*x - 10") part1Score += 2;
+                updateFeedback(1, part1Score === 3, part1Score, 3);
+                
+                // 2. Bölüm kontrolü (2 puan)
+                const part2Correct = answers.formula2 === correctAnswers.formula2;
+                const part2Score = part2Correct ? 2 : 0;
+                updateFeedback(2, part2Correct, part2Score, 2);
+                
+                // 3. Bölüm kontrolü (3 puan)
+                let part3Score = 0;
+                if (answers.slope3 === correctAnswers.slope3) part3Score += 1;
+                if (answers.formula3 === correctAnswers.formula3 || 
+                    answers.formula3 === "50x-300" || 
+                    answers.formula3 === "50*x-300" ||
+                    answers.formula3 === "50x - 300" ||
+                    answers.formula3 === "50*x - 300") part3Score += 2;
+                updateFeedback(3, part3Score === 3, part3Score, 3);
+                
+                // 4. Bölüm kontrolü (2 puan)
+                const part4Correct = answers.formula4 === correctAnswers.formula4;
+                const part4Score = part4Correct ? 2 : 0;
+                updateFeedback(4, part4Correct, part4Score, 2);
+                
+               		// Tam formül kontrolü (2 puan)
+               		 const fullFormulaCorrect = answers.fullFormula.replace(/\s/g, '') === correctAnswers.fullFormula.replace(/\s/g, '') ||
+                   		 answers.fullFormula.replace(/\s/g, '').includes("5x-10") ||
+                   		 answers.fullFormula.replace(/\s/g, '').includes("5*x-10") ||
+                   		 answers.fullFormula.replace(/\s/g, '').includes("50(x-6)") ||
+                    		answers.fullFormula.replace(/\s/g, '').includes("50x-300");
+               		 const fullFormulaScore = fullFormulaCorrect ? 2 : 0;
+               		 updateFeedback('full', fullFormulaCorrect, fullFormulaScore, 2);
+                
+                // Toplam puanı hesapla
+                formulaScore = part1Score + part2Score + part3Score + part4Score + fullFormulaScore;
+                
+                // Puanı kaydet
+                formulaScoreElement.textContent = `${formulaScore}/10`;
+                
+                // Sonraki butonu aktif et
+                nextFormulaButton.disabled = false;
+            }
+            
+            // Feedback güncelleme fonksiyonu
+            function updateFeedback(part, isCorrect, score, maxScore) {
+                const correctFeedback = document.getElementById(`feedback-${part}`);
+                const incorrectFeedback = document.getElementById(`feedback-${part}-incorrect`);
+                
+                if (isCorrect) {
+                    correctFeedback.style.display = 'block';
+                    incorrectFeedback.style.display = 'none';
+                } else {
+                    correctFeedback.style.display = 'none';
+                    incorrectFeedback.style.display = 'block';
+                }
+                
+                // İlerleme çubuğunu güncelle
+                const progress = (score / maxScore) * 100;
+                document.getElementById('progress-bar-formula').style.width = `${progress}%`;
+            }
+            
+            // Formül bölümünden özellikler bölümüne geçiş
+            nextFormulaButton.addEventListener('click', function() {
+                document.getElementById('formula-section').style.display = 'none';
+                document.getElementById('properties-section').style.display = 'block';
+                
+                // Seçenekleri karıştır
+                shuffleOptions();
+            });
+            
+            // Seçenekleri karıştırma fonksiyonu
+            function shuffleOptions() {
+                propertyCards.forEach(card => {
+                    const optionsContainer = card.querySelector('.options');
+                    const options = Array.from(card.querySelectorAll('.option'));
+                    
+                    // Seçenekleri karıştır
+                    for (let i = options.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [options[i], options[j]] = [options[j], options[i]];
+                    }
+                    
+                    // Yeniden ekle
+                    optionsContainer.innerHTML = '';
+                    options.forEach(option => {
+                        optionsContainer.appendChild(option);
+                    });
+                });
+            }
+            
+            // Tüm özellik sorularının cevaplanıp cevaplanmadığını kontrol et
+            function checkAllPropertiesAnswered() {
+                let allAnswered = true;
+                
+                propertyCards.forEach(card => {
+                    const selectedOption = card.querySelector('.option.selected');
+                    if (!selectedOption) {
+                        allAnswered = false;
+                    }
+                });
+                
+                // Butonu aktif/pasif yap
+                checkPropertiesButton.disabled = !allAnswered;
+                
+                return allAnswered;
+            }
+            
+            // Özellikler için seçeneklerin tıklanma olayı
+            propertyCards.forEach(card => {
+                const options = card.querySelectorAll('.option');
+                const feedbacks = card.querySelectorAll('.feedback');
+                
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        // Aynı karttaki diğer seçimleri temizle
+                        options.forEach(opt => opt.classList.remove('selected'));
+                        
+                        // Yeni seçimi yap
+                        this.classList.add('selected');
+                        
+                        // Feedback'leri gizle
+                        feedbacks.forEach(fb => fb.style.display = 'none');
+                        
+                        // Tüm sorular cevaplandı mı kontrol et
+                        checkAllPropertiesAnswered();
+                    });
+                });
+            });
+            
+            // Özellik cevaplarını kontrol etme fonksiyonu
+            function checkProperties() {
+                let propertiesScore = 0;
+                
+                propertyCards.forEach(card => {
+                    const selectedOption = card.querySelector('.option.selected');
+                    const feedbacks = card.querySelectorAll('.feedback');
+                    
+                    // Feedback'leri gizle
+                    feedbacks.forEach(fb => fb.style.display = 'none');
+                    
+                    if (selectedOption) {
+                        const isCorrect = checkPropertyAnswer(card, selectedOption.getAttribute('data-value'));
+                        
+                        const feedback = isCorrect ? card.querySelector('.feedback.correct') : card.querySelector('.feedback.incorrect');
+                        
+                        if (feedback) {
+                            feedback.style.display = 'block';
+                        }
+                        
+                        if (isCorrect) {
+                            propertiesScore += 1; // Her soru 1 puan
+                        }
+                    }
+                });
+                
+                // İlerleme çubuğunu güncelle
+                const progress = (propertiesScore / propertyCards.length) * 100;
+                document.getElementById('progress-bar-properties').style.width = `${progress}%`;
+                
+                // Tüm şıkları pasif hale getir
+                propertyCards.forEach(card => {
+                    const options = card.querySelectorAll('.option');
+                    options.forEach(option => {
+                        option.classList.add('disabled');
+                        option.style.pointerEvents = 'none';
+                    });
+                });
+                
+                // Butonu güncelle
+                checkPropertiesButton.innerHTML = '<i class="fas fa-check-double"></i> Cevaplar Kontrol Edildi!';
+                checkPropertiesButton.style.background = 'linear-gradient(to right, #28a745, #4caf50)';
+                checkPropertiesButton.disabled = true;
+                
+                // Sonraki butonu aktif et
+                nextPropertiesButton.disabled = false;
+                
+                // Puanları kaydet
+                propertiesScoreElement.textContent = `${propertiesScore}/5`;
+            }
+            
+            // Özellik cevap kontrol fonksiyonu
+            function checkPropertyAnswer(card, answer) {
+                const cardId = card.querySelector('h4').textContent;
+                
+                if (cardId.includes('Görüntü')) return answer === 'interval';
+                if (cardId.includes('Bire')) return answer === 'hayir';
+                if (cardId.includes('Tanım')) return answer === 'interval';
+                if (cardId.includes('Artan/Azalan')) return answer === 'artan';
+                if (cardId.includes('Pozitif/Negatif')) return answer === 'poz-neg';
+                
+                return false;
+            }
+            
+            // Sınav sonuçlarını gösteren fonksiyon
+            function showExamResult() {
+                // Toplam puanı hesapla
+                const formulaScore = parseInt(formulaScoreElement.textContent.split('/')[0]);
+                const propertiesScore = parseInt(propertiesScoreElement.textContent.split('/')[0]);
+                const totalScore = formulaScore + propertiesScore;
+                
+                // Puanları göster
+                totalScoreElement.textContent = `${totalScore}/15`;
+                finalScoreElement.textContent = `${totalScore}/15`;
+                
+    
+                
+                // Sonuç bölümünü göster
+                examResult.style.display = 'block';
+                examResult.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Cevapları Kontrol Et butonu (formül bölümü)
+            checkFormulaButton.addEventListener('click', checkFormulas);
+            
+            // Cevapları Kontrol Et butonu (özellikler bölümü)
+            checkPropertiesButton.addEventListener('click', checkProperties);
+            
+            // Sınavı Tamamla butonu (özellikler bölümü)
+            nextPropertiesButton.addEventListener('click', showExamResult);
+            
+            // Hal Değişimi Bilgisi Modal İşlevselliği
+            howToBtn.addEventListener('click', function() {
+                phaseInfoModal.style.display = 'flex';
+            });
+            
+            closePhaseModal.addEventListener('click', function() {
+                phaseInfoModal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', function(event) {
+                if (event.target === phaseInfoModal) {
+                    phaseInfoModal.style.display = 'none';
+                }
+            });
+            
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    phaseInfoModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
