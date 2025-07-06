@@ -421,8 +421,32 @@
         <div class="content">
             <div class="info-section">
                 <h2><i class="fas fa-info-circle"></i> Sınav Hakkında</h2>
-                <p>Bu sınav, suyun hal değişim süreçlerinin matematiksel modellemesi ve fonksiyon özelliklerini analiz etme becerilerinizi ölçmek üzere tasarlanmıştır. Sınavda suyun sıcaklık-zaman grafiğini yorumlayarak parçalı fonksiyon oluşturma ve fonksiyon özelliklerini belirleme becerileriniz değerlendirilecektir.</p>
-                
+<div style="font-family: 'Segoe UI', Tahoma, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 20px auto; padding: 25px; background: #f8f9fa; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+    <p style="margin-bottom: 20px; text-align: justify;">
+        Bu sınav, suyun hal değişim süreçlerinin matematiksel modellemesi ve fonksiyon özelliklerini analiz etme becerilerinizi ölçmek üzere tasarlanmıştır. Sınavda suyun sıcaklık-zaman grafiğini yorumlayarak parçalı fonksiyon oluşturma ve fonksiyon özelliklerini belirleme becerileriniz değerlendirilecektir.
+    </p>
+    
+    <h3 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; margin-top: 25px; margin-bottom: 20px;">Sınav İki Bölümden Oluşmaktadır:</h3>
+    
+    <ol style="padding-left: 30px; margin-bottom: 25px;">
+        <li style="margin-bottom: 15px;">
+            <span style="font-weight: 600; color: #2980b9;">Birinci bölümde</span>, suyun 
+            <span style="background: linear-gradient(transparent 70%, rgba(155, 89, 182, 0.15) 70%); font-weight: 600;">hal değişim fonksiyonunu bulmaya yönelik</span> 
+            sorular yer alacaktır.
+        </li>
+        <li>
+            <span style="font-weight: 600; color: #2980b9;">İkinci bölümde</span> ise, bu fonksiyonun 
+            <span style="background: linear-gradient(transparent 70%, rgba(46, 204, 113, 0.15) 70%); font-weight: 600;">nitel özelliklerine ait</span> 
+            sorular olacaktır.
+        </li>
+    </ol>
+    
+    <p style="background: #e3f2fd; padding: 12px 18px; border-radius: 6px; border-left: 4px solid #3498db; margin-top: 20px;">
+        Birinci bölüm bittiğinde 
+        <br><span style="font-weight: 700; color: #e74c3c; background-color: #fcefec; padding: 2px 8px; border-radius: 4px; border: 1px dashed #e74c3c; margin: 0 4px;">"Sonraki Bölüme Geç"</span> </br>
+        butonuna basarak ikinci bölüme geçebilirsiniz.
+    </p>
+</div>
 
                 
                 <div class="image-container">
@@ -447,21 +471,7 @@
         </footer>
     </div>
     
-    <!-- Müzik kontrol butonu -->
-    <div class="music-control">
-        <button class="music-btn" id="musicControl">
-            <i class="fas fa-music"></i>
-        </button>
-    </div>
-    
-    <!-- Ses efekti ve arka plan müziği için audio elementleri -->
-    <audio id="bgMusic" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    </audio>
-    
-    <audio id="clickSound">
-        <source src="https://www.soundjay.com/buttons/sounds/button-09.mp3" type="audio/mpeg">
-    </audio>
+
     
     <script>
         // Su baloncukları animasyonu oluşturma
@@ -488,28 +498,7 @@
             }
         }
         
-        // Müzik kontrolü
-        const musicControl = document.getElementById('musicControl');
-        const bgMusic = document.getElementById('bgMusic');
-        const clickSound = document.getElementById('clickSound');
-        let isPlaying = false;
         
-        musicControl.addEventListener('click', function() {
-            clickSound.currentTime = 0;
-            clickSound.play();
-            
-            if (isPlaying) {
-                bgMusic.pause();
-                musicControl.innerHTML = '<i class="fas fa-music"></i>';
-                musicControl.style.background = 'linear-gradient(to right, #1a2a6c, #b21f1f)';
-            } else {
-                bgMusic.play();
-                musicControl.innerHTML = '<i class="fas fa-pause"></i>';
-                musicControl.style.background = 'linear-gradient(to right, #1a6c2a, #3ac55f)';
-            }
-            
-            isPlaying = !isPlaying;
-        });
         
         // Dokunmatik cihazlar için hover efekti kaldırma
         document.querySelectorAll('.start-btn, .detail-card').forEach(element => {
