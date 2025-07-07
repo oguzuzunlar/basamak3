@@ -1202,7 +1202,7 @@
                 ctx.fillText("O", scaleX(0) - 12, scaleY(0) + 12);
                 
                 // Eksen başlıkları (x ve y etiketleri)
-                ctx.font = 'bold 12px Arial';
+                ctx.font = 'bold 20px Arial';
                 ctx.fillStyle = '#2c3e50';
                 ctx.textAlign = 'center';
                 ctx.fillText('Zaman (dakika)', scaleX(xMax/2), scaleY(yMin) + 20);
@@ -1224,7 +1224,7 @@
                 ctx.strokeStyle = '#e74c3c';
                 ctx.beginPath();
                 ctx.moveTo(scaleX(0), scaleY(-10));
-                for (let x = 0; x <= 2; x += 0.1) {
+                for (let x = 0; x <= 2.1; x += 0.1) {
                     const y = 5*x - 10;
                     ctx.lineTo(scaleX(x), scaleY(y));
                 }
